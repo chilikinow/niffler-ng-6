@@ -4,7 +4,6 @@ import guru.qa.niffler.config.Config;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
-import org.springframework.http.HttpStatus;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -30,7 +29,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 
@@ -44,7 +43,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 
@@ -55,7 +54,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.CREATED.value(), response.code());
+    assertEquals(201, response.code());
     return response.body();
   }
 
@@ -66,7 +65,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 
@@ -77,7 +76,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.ACCEPTED.value(), response.code());
+    assertEquals(202, response.code());
   }
 
 //  CategoriesController ("/internal/categories")
@@ -90,7 +89,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 
@@ -102,7 +101,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 
@@ -114,7 +113,7 @@ public class SpendApiClient {
     } catch (IOException exception) {
       throw new AssertionError(exception);
     }
-    assertEquals(HttpStatus.OK.value(), response.code());
+    assertEquals(200, response.code());
     return response.body();
   }
 }
