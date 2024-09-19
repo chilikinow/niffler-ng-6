@@ -13,13 +13,13 @@ public class ProfileWebTest {
   private static final Config CFG = Config.getInstance();
 
   @Category(
-      username = "oleg",
+      username = "Oleg",
       archived = false
   )
   @Test
   void archivedCategoryShouldNotPresentInCategoriesList(CategoryJson category) {
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("oleg", "12345");
+        .login("Oleg", "12345");
     new TopMenu().goToProfile()
         .clickArchiveCategoryByName(category.name())
         .clickArchiveButtonSubmit()
@@ -28,13 +28,13 @@ public class ProfileWebTest {
   }
 
   @Category(
-      username = "oleg",
+      username = "Oleg",
       archived = true
   )
   @Test
   void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("oleg", "12345");
+        .login("Oleg", "12345");
     new TopMenu().goToProfile()
         .clickShowArchiveCategoryButton()
         .clickUnarchiveCategoryByName(category.name())

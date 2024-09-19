@@ -12,14 +12,14 @@ public class LoginWebTest {
   private static final Config CFG = Config.getInstance();
   private static final String STATISTICS_TEXT = "Statistics";
   private static final String HISTORY_OF_SPENDING_TEXT = "History of Spendings";
-  private static final String FAILED_LOGIN_MESSAGE = "Неверные учетные данные пользователя";
+  private static final String FAILED_LOGIN_MESSAGE = "Bad credentials";
   private static Faker faker = new Faker();
 
   @Test
   void mainPageShouldBeDisplayedAfterSuccessLogin() {
 
     open(CFG.frontUrl(), LoginPage.class)
-        .login("oleg", "12345")
+        .login("Oleg", "12345")
         .statisticsHeaderShouldHaveText(STATISTICS_TEXT)
         .historyOfSpendingHeaderShouldHaveText(HISTORY_OF_SPENDING_TEXT);
   }
@@ -28,7 +28,7 @@ public class LoginWebTest {
   void userShouldStayOnLoginPageAfterLoginWithBadCredentials() {
 
     open(CFG.frontUrl(), LoginPage.class)
-        .setUsername("oleg")
+        .setUsername("Oleg")
         .setPassword(faker.internet().password(3, 12))
         .clickSubmitButton()
         .formErrorShouldHaveText(FAILED_LOGIN_MESSAGE);

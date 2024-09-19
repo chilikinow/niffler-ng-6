@@ -12,7 +12,7 @@ public class RegisterWebTest {
 
   private static final Config CFG = Config.getInstance();
   private final String EXPECTED_REGISTRATION_MESSAGE = "Congratulations! You've registered!";
-  private final String USERNAME_ALREADY_EXISTS_ERROR_TEXT = "Username `duck` already exists";
+  private final String USERNAME_ALREADY_EXISTS_ERROR_TEXT = "Username `Oleg` already exists";
   private final String PASSWORDS_NOT_EQUAL_ERROR_TEXT = "Passwords should be equal";
   private static Faker faker = new Faker();
 
@@ -33,7 +33,7 @@ public class RegisterWebTest {
 
   @Test
   void shouldNotRegisterUserWithExistingUsername() {
-    String username = "oleg";
+    String username = "Oleg";
     String password = faker.internet().password(3, 12);
 
     RegisterPage registerPage = open(CFG.frontUrl(), LoginPage.class)
