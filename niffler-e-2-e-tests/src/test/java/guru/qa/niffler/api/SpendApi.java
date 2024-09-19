@@ -18,7 +18,7 @@ public interface SpendApi {
 
   @GET("/internal/spends/all")
   Call<List<SpendJson>> getSpends(@Query("username") String username,
-                                   @Query("currency") CurrencyValues filterCurrency,//@Query("filterCurrency") ?
+                                   @Query("filterCurrency") CurrencyValues filterCurrency,
                                    @Query("from") String from,
                                    @Query("to") String to);
 
@@ -39,7 +39,7 @@ public interface SpendApi {
   @GET("/internal/categories/all")
   Call<List<CategoryJson>> getCategories(
       @Query("username") String username,
-      @Query("archived") boolean excludeArchived //@Query("excludeArchived") ?
+      @Query("excludeArchived") boolean excludeArchived
   );
 
   @POST("/internal/categories/add")
