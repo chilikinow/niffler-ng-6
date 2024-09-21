@@ -7,14 +7,14 @@ import guru.qa.niffler.model.CategoryJson;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
 
-public class CategoryExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback, ParameterResolver {
+public class CategoryExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
   private final SpendApiClient spendApiClient = new SpendApiClient();
   private static Faker faker = new Faker();
 
   @Override
-  public void beforeTestExecution(ExtensionContext context) throws Exception {
+  public void beforeEach(ExtensionContext context) throws Exception {
     String categoryName = faker.food().ingredient();
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Category.class)
         .ifPresent(anno -> {
@@ -42,12 +42,11 @@ public class CategoryExtension implements BeforeTestExecutionCallback, AfterTest
               context.getUniqueId(),
               createdCategory
           );
-
         });
   }
 
   @Override
-  public void afterTestExecution(ExtensionContext context) throws Exception {
+  public void afterEach(ExtensionContext context) throws Exception {
     AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Category.class)
         .ifPresent(anno -> {
 
@@ -63,7 +62,6 @@ public class CategoryExtension implements BeforeTestExecutionCallback, AfterTest
 
             spendApiClient.updateCategory(archivedCategory);
           }
-
         });
   }
 
