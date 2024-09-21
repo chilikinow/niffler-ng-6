@@ -17,7 +17,6 @@ public class LoginWebTest {
 
   @Test
   void mainPageShouldBeDisplayedAfterSuccessLogin() {
-
     open(CFG.frontUrl(), LoginPage.class)
         .login("Oleg", "12345")
         .statisticsHeaderShouldHaveText(STATISTICS_TEXT)
@@ -26,12 +25,10 @@ public class LoginWebTest {
 
   @Test
   void userShouldStayOnLoginPageAfterLoginWithBadCredentials() {
-
     open(CFG.frontUrl(), LoginPage.class)
         .setUsername("Oleg")
         .setPassword(faker.internet().password(3, 12))
         .clickSubmitButton()
         .formErrorShouldHaveText(FAILED_LOGIN_MESSAGE);
-
   }
 }

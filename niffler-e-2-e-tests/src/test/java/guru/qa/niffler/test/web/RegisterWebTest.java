@@ -3,7 +3,6 @@ package guru.qa.niffler.test.web;
 import com.github.javafaker.Faker;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.page.LoginPage;
-import guru.qa.niffler.page.RegisterPage;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -18,13 +17,12 @@ public class RegisterWebTest {
 
   @Test
   void shouldRegisterNewUser() {
-    String username = faker.name().username();
-    String password = faker.internet().password(3, 12);
+    final String username = faker.name().username();
+    final String password = faker.internet().password(3, 12);
 
-    RegisterPage registerPage = open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount();
-
-    registerPage.setUsername(username)
+    open(CFG.frontUrl(), LoginPage.class)
+        .clickCreateNewAccount()
+        .setUsername(username)
         .setPassword(password)
         .setPasswordSubmit(password)
         .submitRegistration()
@@ -33,13 +31,11 @@ public class RegisterWebTest {
 
   @Test
   void shouldNotRegisterUserWithExistingUsername() {
-    String username = "Oleg";
-    String password = faker.internet().password(3, 12);
+    final String username = "Oleg";
+    final String password = faker.internet().password(3, 12);
 
-    RegisterPage registerPage = open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount();
-
-    registerPage.setUsername(username)
+    open(CFG.frontUrl(), LoginPage.class)
+        .clickCreateNewAccount().setUsername(username)
         .setPassword(password)
         .setPasswordSubmit(password)
         .submitRegistration()
@@ -48,10 +44,9 @@ public class RegisterWebTest {
 
   @Test
   void shouldShowErrorIfPasswordAndConfirmPasswordAreNotEqual() {
-    RegisterPage registerPage = open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount();
-
-    registerPage.setUsername(faker.name().username())
+    open(CFG.frontUrl(), LoginPage.class)
+        .clickCreateNewAccount()
+        .setUsername(faker.name().username())
         .setPassword(faker.internet().password(3, 12))
         .setPasswordSubmit(faker.internet().password(3, 12))
         .submitRegistration()

@@ -1,12 +1,13 @@
 package guru.qa.niffler.test.web;
 
-import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.page.LoginPage;
 import guru.qa.niffler.page.TopMenu;
 import org.junit.jupiter.api.Test;
+
+import static com.codeborne.selenide.Selenide.*;
 
 public class ProfileWebTest {
 
@@ -18,8 +19,9 @@ public class ProfileWebTest {
   )
   @Test
   void archivedCategoryShouldNotPresentInCategoriesList(CategoryJson category) {
-    Selenide.open(CFG.frontUrl(), LoginPage.class)
+    open(CFG.frontUrl(), LoginPage.class)
         .login("Oleg", "12345");
+
     new TopMenu().goToProfile()
         .clickArchiveCategoryByName(category.name())
         .clickArchiveButtonSubmit()
@@ -33,8 +35,9 @@ public class ProfileWebTest {
   )
   @Test
   void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
-    Selenide.open(CFG.frontUrl(), LoginPage.class)
+    open(CFG.frontUrl(), LoginPage.class)
         .login("Oleg", "12345");
+
     new TopMenu().goToProfile()
         .clickShowArchiveCategoryButton()
         .clickUnarchiveCategoryByName(category.name())
