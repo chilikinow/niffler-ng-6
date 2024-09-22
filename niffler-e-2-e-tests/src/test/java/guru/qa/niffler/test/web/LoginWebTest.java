@@ -28,7 +28,6 @@ public class LoginWebTest {
     open(CFG.frontUrl(), LoginPage.class)
         .setUsername("Oleg")
         .setPassword(faker.internet().password(3, 12))
-        .clickSubmitButton()
-        .formErrorShouldHaveText(FAILED_LOGIN_MESSAGE);
+        .formErrorShouldHaveTextAfterClick(FAILED_LOGIN_MESSAGE);
   }
 }

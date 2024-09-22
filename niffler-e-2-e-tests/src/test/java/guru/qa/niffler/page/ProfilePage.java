@@ -10,8 +10,8 @@ import static com.codeborne.selenide.Selenide.*;
 public class ProfilePage {
 
   private final ElementsCollection categoryList = $$(".MuiChip-root");
-  private final SelenideElement archiveButtonSubmit = $x("//button[text()='Archive']");
-  private final SelenideElement unarchiveButtonSubmit = $x("//button[text()='Unarchive']");
+  private final SelenideElement archiveButton = $x("//button[text()='Archive']");
+  private final SelenideElement unarchiveButton = $x("//button[text()='Unarchive']");
   private final SelenideElement successArchiveMessage = $(".MuiAlert-message .MuiTypography-body1");
   private final SelenideElement showArchiveSwitcher = $(".MuiFormControlLabel-root");
 
@@ -38,32 +38,27 @@ public class ProfilePage {
     return this;
   }
 
-  public ProfilePage clickArchiveButtonSubmit() {
-    archiveButtonSubmit.click();
+  public ProfilePage clickArchiveButton() {
+    archiveButton.click();
     return this;
   }
 
-  public ProfilePage clickUnarchiveButtonSubmit() {
-    unarchiveButtonSubmit.click();
+  public ProfilePage clickUnarchiveButton() {
+    unarchiveButton.click();
     return this;
   }
 
-  public ProfilePage shouldBeVisibleArchiveSuccessMessage(String categoryName) {
-    successArchiveMessage.shouldHave(text("Category " + categoryName + " is archived")).shouldBe(visible);
+  public ProfilePage shouldBeVisibleSuccessMessage(String categoryName, String expectedMessage) {
+    successArchiveMessage.shouldBe(visible).shouldHave(text("Category " + categoryName + " " + expectedMessage));
     return this;
   }
 
-  public ProfilePage shouldBeVisibleUnarchiveSuccessMessage(String categoryName) {
-    successArchiveMessage.shouldHave(text("Category " + categoryName + " is unarchived")).shouldBe(visible);
-    return this;
-  }
-
-  public ProfilePage shouldBeVisibleActiveCategory(String categoryName) {
+  public ProfilePage shouldBeVisibleCategory(String categoryName) {
     categoryList.findBy(text(categoryName)).shouldBe(visible);
     return this;
   }
 
-  public ProfilePage shouldNotBeVisibleArchiveCategory(String categoryName) {
+  public ProfilePage shouldNotBeVisibleCategory(String categoryName) {
     categoryList.findBy(text(categoryName)).shouldNotBe(visible);
     return this;
   }

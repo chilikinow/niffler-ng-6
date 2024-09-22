@@ -42,10 +42,10 @@ public class RegisterPage {
   }
 
   public void successRegisterMessageShouldHaveText(String text) {
-    successRegisterMessage.shouldHave(text(text)).shouldBe(visible);
+    successRegisterMessage.shouldBe(visible).shouldHave(text(text));
   }
 
   public void formErrorShouldHaveText(String text) {
-    formError.shouldHave(text(text)).shouldBe(visible);
+    formError.shouldBe(visible).shouldHave(text(text));
   }
 }

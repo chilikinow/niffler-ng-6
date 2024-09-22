@@ -22,12 +22,16 @@ public class MainPage {
   }
 
   public MainPage statisticsHeaderShouldHaveText(String text) {
-    statisticsHeader.shouldHave(text(text)).shouldBe(visible);
+    statisticsHeader.shouldBe(visible).shouldHave(text(text));
     return this;
   }
 
   public MainPage historyOfSpendingHeaderShouldHaveText(String value) {
-    historyOfSpendingHeader.shouldHave(text(value)).shouldBe(visible);
+    historyOfSpendingHeader.shouldBe(visible).shouldHave(text(value));
     return this;
+  }
+
+  public TopMenu getTopMenu() {
+    return new TopMenu();
   }
 }
