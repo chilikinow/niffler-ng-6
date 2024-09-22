@@ -15,54 +15,51 @@ public class CategoryExtension implements BeforeEachCallback, AfterEachCallback,
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {
-    String categoryName = faker.food().ingredient();
-    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Category.class)
-        .ifPresent(anno -> {
+    final String categoryName = faker.food().ingredient();
+    final String categoryNameTest = faker.animal().name();
+    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Category.class).ifPresent(anno -> {
 
-          CategoryJson category = new CategoryJson(
-              null,
-              categoryName,
-              anno.username(),
-              anno.archived()
+      CategoryJson category = new CategoryJson(
+          null,
+          anno.username().equals("test") ? categoryNameTest : categoryName,
+          anno.username(),
+          anno.archived()
 
-          );
+      );
 
-          CategoryJson createdCategory = spendApiClient.addCategory(category);
-          if (anno.archived()) {
-            CategoryJson archivedCategory = new CategoryJson(
-                createdCategory.id(),
-                createdCategory.name(),
-                createdCategory.username(),
-                true
-            );
-            createdCategory = spendApiClient.updateCategory(archivedCategory);
-          }
+      CategoryJson createdCategory = spendApiClient.addCategory(category);
+      if (anno.archived()) {
+        CategoryJson archivedCategory = new CategoryJson(
+            createdCategory.id(),
+            createdCategory.name(),
+            createdCategory.username(),
+            true
+        );
+        createdCategory = spendApiClient.updateCategory(archivedCategory);
+      }
 
-          context.getStore(NAMESPACE).put(
-              context.getUniqueId(),
-              createdCategory
-          );
-        });
+      context.getStore(NAMESPACE).put(
+          context.getUniqueId(),
+          createdCategory
+      );
+    });
   }
 
   @Override
   public void afterEach(ExtensionContext context) throws Exception {
-    AnnotationSupport.findAnnotation(context.getRequiredTestMethod(), Category.class)
-        .ifPresent(anno -> {
 
-          CategoryJson category = context.getStore(NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
+    CategoryJson category = context.getStore(NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
 
-          if (!category.archived()) {
-            CategoryJson archivedCategory = new CategoryJson(
-                category.id(),
-                category.name(),
-                category.username(),
-                true
-            );
+    if (!category.archived()) {
+      CategoryJson archivedCategory = new CategoryJson(
+          category.id(),
+          category.name(),
+          category.username(),
+          true
+      );
 
-            spendApiClient.updateCategory(archivedCategory);
-          }
-        });
+      spendApiClient.updateCategory(archivedCategory);
+    }
   }
 
   @Override
@@ -71,7 +68,7 @@ public class CategoryExtension implements BeforeEachCallback, AfterEachCallback,
   }
 
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+  public CategoryJson resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), CategoryJson.class);
   }
 }
