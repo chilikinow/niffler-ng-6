@@ -49,14 +49,14 @@ public class UsersQueueExtension implements
   @Override
   public void beforeTestExecution(ExtensionContext context) {
     Arrays.stream(context.getRequiredTestMethod().getParameters())
-        .filter(p -> AnnotationSupport.isAnnotated(p, UserType.class))
+        .filter(parameter -> AnnotationSupport.isAnnotated(parameter, UserType.class))
         .findFirst()
-        .map(p -> p.getAnnotation(UserType.class))
-        .ifPresent(ut -> {
+        .map(parameter -> parameter.getAnnotation(UserType.class))
+        .ifPresent(userType -> {
           Optional<StaticUser> user = Optional.empty();
-          StopWatch sw = StopWatch.createStarted();
-          while (user.isEmpty() && sw.getTime(TimeUnit.SECONDS) < 30) {
-            user = ut.empty()
+          StopWatch stopWatch = StopWatch.createStarted();
+          while (user.isEmpty() && stopWatch.getTime(TimeUnit.SECONDS) < 30) {
+            user = userType.empty()
                 ? Optional.ofNullable(EMPTY_USERS.poll())
                 : Optional.ofNullable(NOT_EMPTY_USERS.poll());
           }
@@ -64,10 +64,10 @@ public class UsersQueueExtension implements
               testCase.setStart(new Date().getTime())
           );
           user.ifPresentOrElse(
-              u ->
+              userPresent ->
                   context.getStore(NAMESPACE).put(
                       context.getUniqueId(),
-                      u
+                      userPresent
                   ),
               () -> {
                 throw new IllegalStateException("Can`t obtain user after 30s.");
