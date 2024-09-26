@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class LoginWebTest {
+public class LoginTest {
 
   private static final Config CFG = Config.getInstance();
   private static final String STATISTICS_TEXT = "Statistics";

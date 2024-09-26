@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public class RegisterWebTest {
+public class RegisterTest {
 
   private static final Config CFG = Config.getInstance();
   private final String EXPECTED_REGISTRATION_MESSAGE = "Congratulations! You've registered!";
