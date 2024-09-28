@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static guru.qa.niffler.utils.RandomDataUtils.*;
 
 @WebTest
-public class RegisterTest {
+public class RegisterWebTest {
 
   private static final Config CFG = Config.getInstance();
   private final String EXPECTED_REGISTRATION_MESSAGE = "Congratulations! You've registered!";

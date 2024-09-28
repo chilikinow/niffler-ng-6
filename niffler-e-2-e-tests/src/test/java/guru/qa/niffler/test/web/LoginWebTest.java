@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static guru.qa.niffler.utils.RandomDataUtils.*;
 
 @WebTest
-public class LoginTest {
+public class LoginWebTest {
 
   private static final Config CFG = Config.getInstance();
   private static final String STATISTICS_TEXT = "Statistics";
