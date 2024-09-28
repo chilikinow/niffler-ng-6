@@ -47,7 +47,7 @@ public class SpendApiClient {
     return response.body();
   }
 
-  public SpendJson addSpend(SpendJson spend) {
+  public SpendJson createSpend(SpendJson spend) {
     final Response<SpendJson> response;
     try {
       response = spendApi.addSpend(spend).execute();
@@ -93,7 +93,7 @@ public class SpendApiClient {
     return response.body();
   }
 
-  public CategoryJson addCategory(CategoryJson category){
+  public CategoryJson createCategory(CategoryJson category){
 
     final Response<CategoryJson> response;
     try {
