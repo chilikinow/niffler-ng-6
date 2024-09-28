@@ -1,7 +1,10 @@
 package guru.qa.niffler.test.web;
 
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.DisabledByIssue;
+import guru.qa.niffler.jupiter.annotation.User;
+import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.jupiter.extension.BrowserExtension;
 import guru.qa.niffler.jupiter.annotation.Spending;
 import guru.qa.niffler.model.SpendJson;
@@ -12,18 +15,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import static com.codeborne.selenide.Selenide.*;
 
-@ExtendWith(BrowserExtension.class)
+@WebTest
 public class SpendingTest {
 
   private static final Config CFG = Config.getInstance();
 
-  @Spending(
+  @User(
       username = "Oleg",
-      category = "Обучение",
-      description = "Обучение Advanced 2.0",
-      amount = 79990
+      categories = @Category(
+          archived = false
+      ),
+      spendings = @Spending(
+          category = "Обучение",
+          description = "Обучение Advanced 2.0",
+          amount = 79990
+      )
   )
-  @DisabledByIssue("3")
+  @DisabledByIssue("2")
   @Test
   void categoryDescriptionShouldBeChangedFromTable(SpendJson spend) {
     final String newDescription = "Обучение Niffler Next Generation";

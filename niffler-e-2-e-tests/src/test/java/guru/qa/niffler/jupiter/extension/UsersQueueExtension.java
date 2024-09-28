@@ -72,7 +72,8 @@ public class UsersQueueExtension implements
   public void beforeTestExecution(ExtensionContext context) {
     Map<UserType, StaticUser> usersMap = new HashMap<>();
     Arrays.stream(context.getRequiredTestMethod().getParameters())
-        .filter(p -> AnnotationSupport.isAnnotated(p, UserType.class))
+        // Проверка наличия аннотации в параметрах
+        .filter(p -> AnnotationSupport.isAnnotated(p, UserType.class) && p.getType().isAssignableFrom(StaticUser.class)) //и проверка типа параметра
         .forEach(p -> {
 
           // Получаем аннотацию @UserType для текущего параметра
@@ -97,7 +98,7 @@ public class UsersQueueExtension implements
         });
     // Сохраняем локальную Map в store после завершения работы с ней
     context.getStore(NAMESPACE).put(context.getUniqueId(), usersMap);
-    //  Обновляем тестовый кейс для Allure-отчёта, чтобы установить время начала теста на текущий момент.
+    // Обновляем тестовый кейс для Allure-отчёта, чтобы установить время начала теста на текущий момент.
     Allure.getLifecycle().updateTestCase(testCase ->
         testCase.setStart(new Date().getTime())
     );
@@ -110,24 +111,28 @@ public class UsersQueueExtension implements
         context.getUniqueId(),
         Map.class
     );
-    // Проходим по каждому элементу карты (Map)
-    for (Map.Entry<UserType, StaticUser> e : map.entrySet()) {
-      UserType userType = e.getKey(); // Получаем ключ (UserType)
-      StaticUser user = e.getValue(); // Получаем значение (StaticUser)
-      // Возвращаем пользователей в соответствующие очереди по типу
-      Queue<StaticUser> queue = getQueueByUserType(userType.value());
-      queue.add(user);
+    if (map != null) {
+      // Проходим по каждому элементу карты (Map)
+      for (Map.Entry<UserType, StaticUser> e : map.entrySet()) {
+        UserType userType = e.getKey(); // Получаем ключ (UserType)
+        StaticUser user = e.getValue(); // Получаем значение (StaticUser)
+        // Возвращаем пользователей в соответствующие очереди по типу
+        Queue<StaticUser> queue = getQueueByUserType(userType.value());
+        queue.add(user);
+      }
     }
   }
 
+  // Вызывается для каждого параметра
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return parameterContext.getParameter().getType().isAssignableFrom(StaticUser.class)
         && AnnotationSupport.isAnnotated(parameterContext.getParameter(), UserType.class);
   }
 
+  // Вызывается для каждого параметра после supportsParameter
   @Override
-  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+  public StaticUser resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     // Извлекаем карту пользователей или создаём новую, если её ещё нет
     @SuppressWarnings("unchecked")
     Map<UserType, StaticUser> userMap = (Map<UserType, StaticUser>) extensionContext.getStore(NAMESPACE)

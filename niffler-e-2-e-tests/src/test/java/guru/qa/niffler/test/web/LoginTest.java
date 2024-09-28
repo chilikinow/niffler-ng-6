@@ -1,19 +1,20 @@
 package guru.qa.niffler.test.web;
 
-import com.github.javafaker.Faker;
 import guru.qa.niffler.config.Config;
+import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selenide.*;
+import static guru.qa.niffler.utils.RandomDataUtils.*;
 
+@WebTest
 public class LoginTest {
 
   private static final Config CFG = Config.getInstance();
   private static final String STATISTICS_TEXT = "Statistics";
   private static final String HISTORY_OF_SPENDING_TEXT = "History of Spendings";
   private static final String FAILED_LOGIN_MESSAGE = "Bad credentials";
-  private static Faker faker = new Faker();
 
   @Test
   void mainPageShouldBeDisplayedAfterSuccessLogin() {
@@ -27,7 +28,7 @@ public class LoginTest {
   void userShouldStayOnLoginPageAfterLoginWithBadCredentials() {
     open(CFG.frontUrl(), LoginPage.class)
         .setUsername("Oleg")
-        .setPassword(faker.internet().password(3, 12))
+        .setPassword(randomPassword())
         .formErrorShouldHaveTextAfterClick(FAILED_LOGIN_MESSAGE);
   }
 }
