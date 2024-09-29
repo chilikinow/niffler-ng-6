@@ -9,11 +9,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)//над классом
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
 @ExtendWith({
-  BrowserExtension.class,
-      UsersQueueExtension.class
+    BrowserExtension.class,
+    UsersQueueExtension.class
 })
 public @interface WebTest {
 }

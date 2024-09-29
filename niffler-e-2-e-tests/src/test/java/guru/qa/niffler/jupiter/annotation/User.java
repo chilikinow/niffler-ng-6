@@ -11,13 +11,11 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-@ExtendWith({
-    CategoryExtension.class,
-    SpendingExtension.class
-})
+@ExtendWith({CategoryExtension.class, SpendingExtension.class})
 public @interface User {
-
   String username();
+
   Category[] categories() default {};
+
   Spending[] spendings() default {};
 }
