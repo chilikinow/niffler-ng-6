@@ -3,76 +3,63 @@ package guru.qa.niffler.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import static com.codeborne.selenide.Condition.attributeMatching;
-import static com.codeborne.selenide.Condition.disabled;
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.value;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.*;
 
 public class ProfilePage {
 
-  private final SelenideElement avatar = $("#image__input").parent().$("img");
-  private final SelenideElement userName = $("#username");
-  private final SelenideElement nameInput = $("#name");
-  private final SelenideElement photoInput = $("input[type='file']");
-  private final SelenideElement submitButton = $("button[type='submit']");
-  private final SelenideElement categoryInput = $("input[name='category']");
-  private final SelenideElement archivedSwitcher = $(".MuiSwitch-input");
-  private final ElementsCollection bubbles = $$(".MuiChip-filled.MuiChip-colorPrimary");
-  private final ElementsCollection bubblesArchived = $$(".MuiChip-filled.MuiChip-colorDefault");
+  private final ElementsCollection categoryList = $$(".MuiChip-root");
+  private final SelenideElement archiveButton = $x("//button[text()='Archive']");
+  private final SelenideElement unarchiveButton = $x("//button[text()='Unarchive']");
+  private final SelenideElement successArchiveMessage = $(".MuiAlert-message .MuiTypography-body1");
+  private final SelenideElement showArchiveSwitcher = $(".MuiFormControlLabel-root");
 
-
-  public ProfilePage setName(String name) {
-    nameInput.clear();
-    nameInput.setValue(name);
+  public ProfilePage clickArchiveCategoryByName(String categoryName) {
+    categoryList
+        .findBy(text(categoryName))
+        .parent()
+        .$(".MuiIconButton-sizeMedium[aria-label='Archive category']")
+        .click();
     return this;
   }
 
-  public ProfilePage uploadPhotoFromClasspath(String path) {
-    photoInput.uploadFromClasspath(path);
+  public ProfilePage clickUnarchiveCategoryByName(String categoryName) {
+    categoryList
+        .findBy(text(categoryName))
+        .parent()
+        .$("[data-testid='UnarchiveOutlinedIcon']")
+        .click();
     return this;
   }
 
-  public ProfilePage addCategory(String category) {
-    categoryInput.setValue(category).pressEnter();
+  public ProfilePage clickShowArchiveCategoryButton() {
+    showArchiveSwitcher.click();
     return this;
   }
 
-  public ProfilePage checkCategoryExists(String category) {
-    bubbles.find(text(category)).shouldBe(visible);
+  public ProfilePage clickArchiveButton() {
+    archiveButton.click();
     return this;
   }
 
-  public ProfilePage checkArchivedCategoryExists(String category) {
-    archivedSwitcher.click();
-    bubblesArchived.find(text(category)).shouldBe(visible);
+  public ProfilePage clickUnarchiveButton() {
+    unarchiveButton.click();
     return this;
   }
 
-  public ProfilePage checkUsername(String username) {
-    this.userName.should(value(username));
+  public ProfilePage shouldBeVisibleSuccessMessage(String categoryName, String expectedMessage) {
+    successArchiveMessage.shouldBe(visible).shouldHave(text("Category " + categoryName + " " + expectedMessage));
     return this;
   }
 
-  public ProfilePage checkName(String name) {
-    nameInput.shouldHave(value(name));
+  public ProfilePage shouldBeVisibleCategory(String categoryName) {
+    categoryList.findBy(text(categoryName)).shouldBe(visible);
     return this;
   }
 
-  public ProfilePage checkPhotoExist() {
-    avatar.should(attributeMatching("src", "data:image.*"));
-    return this;
-  }
-
-  public ProfilePage checkThatCategoryInputDisabled() {
-    categoryInput.should(disabled);
-    return this;
-  }
-
-  public ProfilePage submitProfile() {
-    submitButton.click();
+  public ProfilePage shouldNotBeVisibleCategory(String categoryName) {
+    categoryList.findBy(text(categoryName)).shouldNotBe(visible);
     return this;
   }
 }
