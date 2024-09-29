@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import static com.codeborne.selenide.Selenide.*;
 
 @WebTest
-public class ProfileWebTest {
+public class ProfileTest {
 
   private static final Config CFG = Config.getInstance();
 
