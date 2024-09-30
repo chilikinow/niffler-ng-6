@@ -3,6 +3,7 @@ package guru.qa.niffler.data.dao.impl;
 
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.data.Databases;
+import guru.qa.niffler.data.dao.CategoryDao;
 import guru.qa.niffler.data.dao.SpendDao;
 import guru.qa.niffler.data.entity.spend.CategoryEntity;
 import guru.qa.niffler.data.entity.spend.SpendEntity;
@@ -58,13 +59,19 @@ public class SpendDaoJdbc implements SpendDao {
         try (ResultSet rs = ps.getResultSet()) {
           if (rs.next()) {
             SpendEntity se = new SpendEntity();
+            CategoryDao cd = new CategoryDaoJdbc();
+
             se.setId(rs.getObject("id", UUID.class));
             se.setUsername(rs.getString("username"));
             se.setSpendDate(rs.getDate("spend_date"));
-            se.setCurrency(rs.getObject("currency", CurrencyValues.class));
+            se.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
             se.setAmount(rs.getDouble("amount"));
             se.setDescription((rs.getString("description")));
-            se.setCategory(rs.getObject("category_id", CategoryEntity.class));
+            se.setCategory(
+                cd.findById(
+                    rs.getObject("category_id", UUID.class))
+                    .get()
+            );
             return Optional.of(se);
           } else {
             return Optional.empty();
@@ -87,14 +94,19 @@ public class SpendDaoJdbc implements SpendDao {
         try (ResultSet rs = ps.executeQuery()) {
           while (rs.next()) {
             SpendEntity se = new SpendEntity();
+            CategoryDao cd = new CategoryDaoJdbc();
 
             se.setId(rs.getObject("id", UUID.class));
             se.setUsername(rs.getString("username"));
             se.setSpendDate(rs.getDate("spend_date"));
-            se.setCurrency(rs.getObject("currency", CurrencyValues.class));
+            se.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
             se.setAmount(rs.getDouble("amount"));
             se.setDescription(rs.getString("description"));
-            se.setCategory(rs.getObject("category_id", CategoryEntity.class));
+            se.setCategory(
+                cd.findById(
+                        rs.getObject("category_id", UUID.class))
+                    .get()
+            );
 
             spends.add(se);
           }
