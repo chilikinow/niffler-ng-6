@@ -1,6 +1,5 @@
 package guru.qa.niffler.jupiter.extension;
 
-import guru.qa.niffler.api.SpendApiClient;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.User;
 import guru.qa.niffler.model.CategoryJson;
@@ -11,7 +10,10 @@ import org.junit.platform.commons.support.AnnotationSupport;
 
 import static guru.qa.niffler.utils.RandomDataUtils.*;
 
-public class CategoryExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
+public class CategoryExtension implements
+    BeforeEachCallback,
+    AfterTestExecutionCallback,
+    ParameterResolver {
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(CategoryExtension.class);
 //  private final SpendApiClient spendApiClient = new SpendApiClient();
@@ -54,7 +56,7 @@ private final SpendDbClient spendDbClient = new SpendDbClient();
   }
 
   @Override
-  public void afterEach(ExtensionContext context) {
+  public void afterTestExecution(ExtensionContext context) {
     CategoryJson category = context.getStore(NAMESPACE).get(context.getUniqueId(), CategoryJson.class);
 
 //  // Если категория существует и не архивирована, архивируем её после теста
