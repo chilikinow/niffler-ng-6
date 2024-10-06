@@ -1,3 +1,4 @@
+
 package guru.qa.niffler.data.dao.impl;
 
 import guru.qa.niffler.data.dao.CategoryDao;
@@ -27,9 +28,7 @@ public class CategoryDaoJdbc implements CategoryDao {
       ps.setString(1, category.getUsername());
       ps.setString(2, category.getName());
       ps.setBoolean(3, category.isArchived());
-
       ps.executeUpdate();
-
       final UUID generatedKey;
       try (ResultSet rs = ps.getGeneratedKeys()) {
         if (rs.next()) {
@@ -51,9 +50,7 @@ public class CategoryDaoJdbc implements CategoryDao {
         "SELECT * FROM category WHERE id = ?"
     )) {
       ps.setObject(1, id);
-
       ps.execute();
-
       try (ResultSet rs = ps.getResultSet()) {
         if (rs.next()) {
           CategoryEntity ce = new CategoryEntity();
@@ -72,15 +69,13 @@ public class CategoryDaoJdbc implements CategoryDao {
   }
 
   @Override
-  public Optional<CategoryEntity> findByUsernameAndCategoryName(String username, String categoryName) {
+  public Optional<CategoryEntity> findByUsernameAndCategoryName(String userName, String categoryName) {
     try (PreparedStatement ps = connection.prepareStatement(
         "SELECT * FROM category WHERE username = ? AND name = ?"
     )) {
-      ps.setObject(1, username);
+      ps.setObject(1, userName);
       ps.setObject(2, categoryName);
-
       ps.execute();
-
       try (ResultSet rs = ps.getResultSet()) {
         if (rs.next()) {
           CategoryEntity ce = new CategoryEntity();
@@ -99,17 +94,35 @@ public class CategoryDaoJdbc implements CategoryDao {
   }
 
   @Override
-  public List<CategoryEntity> findAllByUsername(String username) {
+  public List<CategoryEntity> findAllByUsername(String userName) {
     List<CategoryEntity> categories = new ArrayList<>();
-
     try (PreparedStatement ps = connection.prepareStatement(
         "SELECT * FROM category WHERE username = ?"
     )) {
-      ps.setObject(1, username);
+      ps.setObject(1, userName);
+      try (ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+          CategoryEntity ce = new CategoryEntity();
+          ce.setId(rs.getObject("id", UUID.class));
+          ce.setName(rs.getString("name"));
+          ce.setUsername(rs.getString("username"));
+          ce.setArchived(rs.getBoolean("archived"));
+          categories.add(ce);
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return categories;
+  }
 
-      ps.execute();
-
-      try (ResultSet rs = ps.getResultSet()) {
+  @Override
+  public List<CategoryEntity> findAll() {
+    List<CategoryEntity> categories = new ArrayList<>();
+    try (PreparedStatement ps = connection.prepareStatement(
+        "SELECT * FROM category"
+    )) {
+      try (ResultSet rs = ps.executeQuery()) {
         while (rs.next()) {
           CategoryEntity ce = new CategoryEntity();
           ce.setId(rs.getObject("id", UUID.class));
@@ -132,9 +145,7 @@ public class CategoryDaoJdbc implements CategoryDao {
         "DELETE FROM category WHERE id = ?"
     )) {
       ps.setObject(1, category.getId());
-
       ps.executeUpdate();
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
