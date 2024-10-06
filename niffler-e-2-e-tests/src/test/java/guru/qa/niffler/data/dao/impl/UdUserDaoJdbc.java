@@ -1,4 +1,3 @@
-
 package guru.qa.niffler.data.dao.impl;
 
 import guru.qa.niffler.data.dao.UdUserDao;
@@ -6,6 +5,8 @@ import guru.qa.niffler.data.entity.userdata.UserEntity;
 import guru.qa.niffler.model.CurrencyValues;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class UdUserDaoJdbc implements UdUserDao {
     try (PreparedStatement ps = connection.prepareStatement(
         "INSERT INTO \"user\" (username, currency, firstname, surname, photo, photo_small, full_name) " +
             "VALUES ( ?, ?, ?, ?, ?, ?, ?)",
-        PreparedStatement.RETURN_GENERATED_KEYS
+        Statement.RETURN_GENERATED_KEYS
     )) {
       ps.setString(1, user.getUsername());
       ps.setString(2, user.getCurrency().name());
@@ -31,9 +32,7 @@ public class UdUserDaoJdbc implements UdUserDao {
       ps.setBytes(5, user.getPhoto());
       ps.setBytes(6, user.getPhotoSmall());
       ps.setString(7, user.getFullname());
-
       ps.executeUpdate();
-
       final UUID generatedKey;
       try (ResultSet rs = ps.getGeneratedKeys()) {
         if (rs.next()) {
@@ -55,15 +54,13 @@ public class UdUserDaoJdbc implements UdUserDao {
         "SELECT * FROM \"user\" WHERE id = ?"
     )) {
       ps.setObject(1, id);
-
       ps.execute();
-
       try (ResultSet rs = ps.getResultSet()) {
         if (rs.next()) {
           UserEntity ue = new UserEntity();
           ue.setId(rs.getObject("id", UUID.class));
           ue.setUsername(rs.getString("username"));
-          ue.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
+          ue.setCurrency(rs.getObject("currency", CurrencyValues.class));
           ue.setFirstname(rs.getString("firstname"));
           ue.setSurname(rs.getString("surname"));
           ue.setPhoto(rs.getBytes("photo"));
@@ -80,20 +77,18 @@ public class UdUserDaoJdbc implements UdUserDao {
   }
 
   @Override
-  public Optional<UserEntity> findByUsername(String username) {
+  public Optional<UserEntity> findByUsername(String userName) {
     try (PreparedStatement ps = connection.prepareStatement(
         "SELECT * FROM \"user\" WHERE username = ?"
     )) {
-      ps.setObject(1, username);
-
+      ps.setObject(1, userName);
       ps.execute();
-
       try (ResultSet rs = ps.getResultSet()) {
         if (rs.next()) {
           UserEntity ue = new UserEntity();
           ue.setId(rs.getObject("id", UUID.class));
           ue.setUsername(rs.getString("username"));
-          ue.setCurrency(CurrencyValues.valueOf(rs.getString("currency")));
+          ue.setCurrency(rs.getObject("currency", CurrencyValues.class));
           ue.setFirstname(rs.getString("firstname"));
           ue.setSurname(rs.getString("surname"));
           ue.setPhoto(rs.getBytes("photo"));
@@ -107,6 +102,32 @@ public class UdUserDaoJdbc implements UdUserDao {
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public List<UserEntity> findAll() {
+    List<UserEntity> users = new ArrayList<>();
+    try (PreparedStatement ps = connection.prepareStatement(
+        "SELECT * FROM \"user\""
+    )) {
+      try (ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+          UserEntity ue = new UserEntity();
+          ue.setId(rs.getObject("id", UUID.class));
+          ue.setUsername(rs.getString("username"));
+          ue.setCurrency(rs.getObject("currency", CurrencyValues.class));
+          ue.setFirstname(rs.getString("firstname"));
+          ue.setSurname(rs.getString("surname"));
+          ue.setPhoto(rs.getBytes("photo"));
+          ue.setPhoto(rs.getBytes("photo_small"));
+          ue.setFullname(rs.getString("full_name"));
+          users.add(ue);
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return users;
   }
 
   @Override
@@ -115,9 +136,7 @@ public class UdUserDaoJdbc implements UdUserDao {
         "DELETE FROM \"user\" WHERE id = ?"
     )) {
       ps.setObject(1, user.getId());
-
       ps.executeUpdate();
-
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
