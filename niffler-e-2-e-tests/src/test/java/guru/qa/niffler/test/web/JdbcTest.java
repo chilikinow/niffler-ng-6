@@ -6,6 +6,7 @@ import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.service.SpendDbClient;
 import guru.qa.niffler.service.UsersDbClient;
+import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
@@ -24,7 +25,7 @@ public class JdbcTest {
             new Date(),
             new CategoryJson(
                 null,
-                "cat-name-tx-33",
+                RandomDataUtils.randomCategoryName(),
                 "oleg",
                 false
             ),
@@ -82,7 +83,7 @@ public class JdbcTest {
     UserJson user = usersDbClient.createUserWithJdbcTransaction(
         new UserJson(
             null,
-            "jdbc-with-tx",
+            RandomDataUtils.randomUsername(),
             null,
             null,
             null,
