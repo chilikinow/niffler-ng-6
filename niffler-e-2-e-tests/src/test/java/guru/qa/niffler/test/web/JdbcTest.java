@@ -6,11 +6,10 @@ import guru.qa.niffler.model.SpendJson;
 import guru.qa.niffler.model.UserJson;
 import guru.qa.niffler.service.SpendDbClient;
 import guru.qa.niffler.service.UsersDbClient;
+import guru.qa.niffler.utils.RandomDataUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-
-import static guru.qa.niffler.utils.RandomDataUtils.randomUsername;
 
 public class JdbcTest {
 
@@ -24,7 +23,7 @@ public class JdbcTest {
             new Date(),
             new CategoryJson(
                 null,
-                "cat-name-tx-33",
+                RandomDataUtils.randomCategoryName(),
                 "oleg",
                 false
             ),
@@ -39,12 +38,12 @@ public class JdbcTest {
   }
 
   @Test
-  void springJdbcWithTransactionTest() {
+  void springJdbcTest() {
     UsersDbClient usersDbClient = new UsersDbClient();
-    UserJson user = usersDbClient.createUserWithSpringJdbcTransaction(
+    UserJson myself = usersDbClient.createUser(
         new UserJson(
             null,
-            randomUsername(),
+            "sergey",
             null,
             null,
             null,
@@ -54,16 +53,11 @@ public class JdbcTest {
             null
         )
     );
-    System.out.println(user);
-  }
 
-  @Test
-  void springJdbcWithoutTransactionTest() {
-    UsersDbClient usersDbClient = new UsersDbClient();
-    UserJson user = usersDbClient.createUserWithoutSpringJdbcTransaction(
+    UserJson friend = usersDbClient.createUser(
         new UserJson(
             null,
-            randomUsername(),
+            "mariya",
             null,
             null,
             null,
@@ -73,16 +67,11 @@ public class JdbcTest {
             null
         )
     );
-    System.out.println(user);
-  }
 
-  @Test
-  void jdbcWithTransactionTest() {
-    UsersDbClient usersDbClient = new UsersDbClient();
-    UserJson user = usersDbClient.createUserWithJdbcTransaction(
+    UserJson income = usersDbClient.createUser(
         new UserJson(
             null,
-            "jdbc-with-tx",
+            "valentino",
             null,
             null,
             null,
@@ -92,16 +81,11 @@ public class JdbcTest {
             null
         )
     );
-    System.out.println(user);
-  }
 
-  @Test
-  void jdbcWithoutTransactionTest() {
-    UsersDbClient usersDbClient = new UsersDbClient();
-    UserJson user = usersDbClient.createUserWithoutJdbcTransaction(
+    UserJson outcome = usersDbClient.createUser(
         new UserJson(
             null,
-            randomUsername(),
+            "ekaterina",
             null,
             null,
             null,
@@ -111,6 +95,14 @@ public class JdbcTest {
             null
         )
     );
-    System.out.println(user);
+
+    // Добавляем входящее приглашение
+    usersDbClient.addInvitation(income, myself);
+
+    // Добавляем исходящее приглашение
+    usersDbClient.addInvitation(myself, outcome);
+
+    // Добавляем друзей
+    usersDbClient.addFriends(myself, friend);
   }
 }
