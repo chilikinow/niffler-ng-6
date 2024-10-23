@@ -17,7 +17,7 @@ public class SpendingTest {
   private static final Config CFG = Config.getInstance();
 
   @User(
-      username = "duck",
+      username = "oleg",
       spendings = @Spending(
           category = "Обучение",
           description = "Обучение Advanced 2.0",
