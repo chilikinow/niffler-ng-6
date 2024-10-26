@@ -36,9 +36,4 @@ public class SpendingTest {
         .save();
     new MainPage().checkThatTableContainsSpending(newDescription);
   }
-
-  @Test
-  void categoryDescriptionShouldBeChangedFromJson() {
-
-  }
 }
