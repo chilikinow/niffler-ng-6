@@ -54,7 +54,7 @@ public class JdbcTest {
             CurrencyValues.RUB,
             1500.0,
             "spend-name-lifecycle-test",
-            "duck"
+            "oleg"
         )
     );
     assertNotNull(spend.id(), "ID новой траты не должен быть null");
