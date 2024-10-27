@@ -1,59 +1,55 @@
 package guru.qa.niffler.test.web;
 
+import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.meta.WebTest;
 import guru.qa.niffler.page.LoginPage;
+import guru.qa.niffler.page.RegisterPage;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.*;
-import static guru.qa.niffler.utils.RandomDataUtils.*;
+import static guru.qa.niffler.utils.RandomDataUtils.randomPassword;
+import static guru.qa.niffler.utils.RandomDataUtils.randomUsername;
 
 @WebTest
 public class RegistrationTest {
-
+  RegisterPage registerPage = new RegisterPage();
   private static final Config CFG = Config.getInstance();
-  private final String EXPECTED_REGISTRATION_MESSAGE = "Congratulations! You've registered!";
-  private final String PASSWORDS_NOT_EQUAL_ERROR_TEXT = "Passwords should be equal";
+  final String REGISTERED_USER_NAME = "duck";
+  final String EXPECTED_REGISTRATION_MESSAGE = "Congratulations! You've registered!";
+  final String USERNAME_ALREADY_EXISTS_ERROR_TEXT = "Username `duck` already exists";
+  final String PASSWORDS_NOT_EQUAL_ERROR_TEXT = "Passwords should be equal";
+  String password = randomPassword();
 
   @Test
   void shouldRegisterNewUser() {
-    final String username = randomUsername();
-    final String password = randomPassword();
-
-    open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount()
-        .setUsername(username)
+    Selenide.open(CFG.frontUrl(), LoginPage.class)
+        .submitCreateNewAccount();
+    registerPage.setUsername(randomUsername())
         .setPassword(password)
         .setPasswordSubmit(password)
         .submitRegistration()
-        .successRegisterMessageShouldHaveText(EXPECTED_REGISTRATION_MESSAGE);
+        .checkSuccessRegisterNewUser(EXPECTED_REGISTRATION_MESSAGE);
   }
 
   @Test
   void shouldNotRegisterUserWithExistingUsername() {
-    final String username = "Oleg";
-    final String password = randomPassword();
-
-    open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount().setUsername(username)
+    Selenide.open(CFG.frontUrl(), LoginPage.class)
+        .submitCreateNewAccount();
+    registerPage.setUsername(REGISTERED_USER_NAME)
         .setPassword(password)
         .setPasswordSubmit(password)
         .submitRegistration()
-        .formErrorShouldHaveText("Username `" + username + "` already exists");
+        .checkFormErrorText(USERNAME_ALREADY_EXISTS_ERROR_TEXT);
   }
 
   @Test
   void shouldShowErrorIfPasswordAndConfirmPasswordAreNotEqual() {
-    final String username = randomUsername();
-    final String password = randomPassword();
-    final String submitPassword = randomPassword();
-
-    open(CFG.frontUrl(), LoginPage.class)
-        .clickCreateNewAccount()
-        .setUsername(username)
-        .setPassword(password)
-        .setPasswordSubmit(submitPassword)
+    Selenide.open(CFG.frontUrl(), LoginPage.class)
+        .submitCreateNewAccount();
+    registerPage.setUsername(randomUsername())
+        .setPassword(randomPassword())
+        .setPasswordSubmit(randomPassword())
         .submitRegistration()
-        .formErrorShouldHaveText(PASSWORDS_NOT_EQUAL_ERROR_TEXT);
+        .checkFormErrorText(PASSWORDS_NOT_EQUAL_ERROR_TEXT);
   }
 }

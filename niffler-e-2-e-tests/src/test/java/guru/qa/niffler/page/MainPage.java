@@ -16,9 +16,10 @@ public class MainPage {
   private final SelenideElement profileLink = $("a.nav-link[href='/profile']");
   private final SelenideElement friendsLink = $("a.nav-link[href='/people/friends']");
   private final SelenideElement allPeopleButton = $x("(//a[@class='link nav-link'])[3]");
-
+  private final SelenideElement searchInput = $("input[type='text']");
 
   public EditSpendingPage editSpending(String spendingDescription) {
+    searchSpend(spendingDescription);
     tableRows.find(text(spendingDescription)).$$("td").get(5).click();
     return new EditSpendingPage();
   }
@@ -42,20 +43,21 @@ public class MainPage {
   }
 
   public void checkThatTableContainsSpending(String spendingDescription) {
+    searchSpend(spendingDescription);
     tableRows.find(text(spendingDescription)).should(visible);
   }
 
-  public MainPage statisticsHeaderShouldHaveText(String text) {
-    statisticsHeader.shouldBe(visible).shouldHave(text(text));
+  public MainPage checkStatisticsHeaderContainsText(String value) {
+    statisticsHeader.shouldHave(text(value)).shouldBe(visible);
     return this;
   }
 
-  public MainPage historyOfSpendingHeaderShouldHaveText(String value) {
-    historyOfSpendingHeader.shouldBe(visible).shouldHave(text(value));
+  public MainPage checkHistoryOfSpendingHeaderContainsText(String value) {
+    historyOfSpendingHeader.shouldHave(text(value)).shouldBe(visible);
     return this;
   }
 
-  public TopMenu getTopMenu() {
-    return new TopMenu();
+  public void searchSpend(String spendingDescription) {
+    searchInput.setValue(spendingDescription).pressEnter();
   }
 }

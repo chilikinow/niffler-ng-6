@@ -12,40 +12,34 @@ public class RegisterPage {
   private final SelenideElement passwordInput = $("input[name='password']");
   private final SelenideElement submitPasswordInput = $("input[name='passwordSubmit']");
   private final SelenideElement submitButton = $("button[type='submit']");
-  private final SelenideElement signInButton = $(".form_sign-in");
   private final SelenideElement successRegisterMessage = $(".form__paragraph_success");
   private final SelenideElement formError = $(".form__error");
 
   public RegisterPage setUsername(String username) {
     usernameInput.setValue(username);
-    return this;
+    return new RegisterPage();
   }
 
   public RegisterPage setPassword(String password) {
     passwordInput.setValue(password);
-    return this;
+    return new RegisterPage();
   }
 
-  public RegisterPage setPasswordSubmit(String password) {
-    submitPasswordInput.setValue(password);
-    return this;
+  public RegisterPage setPasswordSubmit(String submitPassword) {
+    submitPasswordInput.setValue(submitPassword);
+    return new RegisterPage();
   }
 
   public RegisterPage submitRegistration() {
     submitButton.click();
-    return this;
+    return new RegisterPage();
   }
 
-  public LoginPage clickSignInButton() {
-    signInButton.click();
-    return new LoginPage();
+  public void checkSuccessRegisterNewUser(String value) {
+    successRegisterMessage.shouldHave(text(value)).shouldBe(visible);
   }
 
-  public void successRegisterMessageShouldHaveText(String text) {
-    successRegisterMessage.shouldBe(visible).shouldHave(text(text));
-  }
-
-  public void formErrorShouldHaveText(String text) {
-    formError.shouldBe(visible).shouldHave(text(text));
+  public void checkFormErrorText(String value) {
+    formError.shouldHave(text(value)).shouldBe(visible);
   }
 }
