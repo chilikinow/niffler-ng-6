@@ -36,14 +36,13 @@ public class UsersQueueExtension implements
   static {
     EMPTY_USERS.add(new StaticUser("bee", "12345", null, null, null));
     WITH_FRIEND_USERS.add(new StaticUser("duck", "12345", "dima", null, null));
-    WITH_INCOME_REQUEST_USERS.add(new StaticUser("Mariya", "12345", null, "Oleg", null));
-    WITH_OUTCOME_REQUEST_USERS.add(new StaticUser("Oleg", "12345", null, null, "Mariya"));
+    WITH_INCOME_REQUEST_USERS.add(new StaticUser("dima", "12345", null, "barsik", null));
+    WITH_OUTCOME_REQUEST_USERS.add(new StaticUser("barsik", "12345", null, null, "dima"));
   }
 
   @Target(ElementType.PARAMETER)
   @Retention(RetentionPolicy.RUNTIME)
   public @interface UserType {
-
     Type value() default Type.EMPTY;
 
     enum Type {
@@ -72,8 +71,7 @@ public class UsersQueueExtension implements
   public void beforeTestExecution(ExtensionContext context) {
     Map<UserType, StaticUser> usersMap = new HashMap<>();
     Arrays.stream(context.getRequiredTestMethod().getParameters())
-        // Проверка наличия аннотации в параметрах
-        .filter(p -> AnnotationSupport.isAnnotated(p, UserType.class) && p.getType().isAssignableFrom(StaticUser.class)) //и проверка типа параметра
+        .filter(p -> AnnotationSupport.isAnnotated(p, UserType.class) && p.getType().isAssignableFrom(StaticUser.class))
         .forEach(p -> {
 
           // Получаем аннотацию @UserType для текущего параметра
@@ -98,7 +96,7 @@ public class UsersQueueExtension implements
         });
     // Сохраняем локальную Map в store после завершения работы с ней
     context.getStore(NAMESPACE).put(context.getUniqueId(), usersMap);
-    // Обновляем тестовый кейс для Allure-отчёта, чтобы установить время начала теста на текущий момент.
+    //  Обновляем тестовый кейс для Allure-отчёта, чтобы установить время начала теста на текущий момент.
     Allure.getLifecycle().updateTestCase(testCase ->
         testCase.setStart(new Date().getTime())
     );
@@ -111,8 +109,8 @@ public class UsersQueueExtension implements
         context.getUniqueId(),
         Map.class
     );
+    // Проходим по каждому элементу карты (Map)
     if (map != null) {
-      // Проходим по каждому элементу карты (Map)
       for (Map.Entry<UserType, StaticUser> e : map.entrySet()) {
         UserType userType = e.getKey(); // Получаем ключ (UserType)
         StaticUser user = e.getValue(); // Получаем значение (StaticUser)
@@ -123,14 +121,12 @@ public class UsersQueueExtension implements
     }
   }
 
-  // Вызывается для каждого параметра
   @Override
   public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     return parameterContext.getParameter().getType().isAssignableFrom(StaticUser.class)
         && AnnotationSupport.isAnnotated(parameterContext.getParameter(), UserType.class);
   }
 
-  // Вызывается для каждого параметра после supportsParameter
   @Override
   public StaticUser resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     // Извлекаем карту пользователей или создаём новую, если её ещё нет

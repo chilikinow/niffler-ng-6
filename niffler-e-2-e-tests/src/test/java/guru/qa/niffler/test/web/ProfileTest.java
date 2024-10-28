@@ -1,5 +1,6 @@
 package guru.qa.niffler.test.web;
 
+import com.codeborne.selenide.Selenide;
 import guru.qa.niffler.config.Config;
 import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.User;
@@ -8,11 +9,8 @@ import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.page.LoginPage;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Selenide.*;
-
 @WebTest
 public class ProfileTest {
-
   private static final Config CFG = Config.getInstance();
 
   @User(
@@ -22,15 +20,15 @@ public class ProfileTest {
       )
   )
   @Test
-  void archivedCategoryShouldNotPresentInCategoriesList(CategoryJson category) {
-    open(CFG.frontUrl(), LoginPage.class)
+  void archivedCategoryShouldNotPresentInCategoriesList(CategoryJson[] categories) throws InterruptedException {
+    CategoryJson category = categories[0];
+    Selenide.open(CFG.frontUrl(), LoginPage.class)
         .login("Oleg", "12345")
-        .getTopMenu()
         .goToProfile()
-        .clickArchiveCategoryByName(category.name())
-        .clickArchiveButton()
-        .shouldBeVisibleSuccessMessage(category.name(), "is archived")
-        .shouldNotBeVisibleCategory(category.name());
+        .clickArchiveButtonForCategoryName(category.name())
+        .clickArchiveButtonSubmit()
+        .shouldBeVisibleArchiveSuccessMessage(category.name())
+        .shouldNotVisibleArchiveCategory(category.name());
   }
 
   @User(
@@ -40,16 +38,16 @@ public class ProfileTest {
       )
   )
   @Test
-  void activeCategoryShouldPresentInCategoriesList(CategoryJson category) {
-    open(CFG.frontUrl(), LoginPage.class)
+  void activeCategoryShouldPresentInCategoriesList(CategoryJson[] categories) throws InterruptedException {
+    CategoryJson category = categories[0];
+    Selenide.open(CFG.frontUrl(), LoginPage.class)
         .login("Oleg", "12345")
-        .getTopMenu()
         .goToProfile()
         .clickShowArchiveCategoryButton()
-        .clickUnarchiveCategoryByName(category.name())
-        .clickUnarchiveButton()
-        .shouldBeVisibleSuccessMessage(category.name(), "is unarchived")
+        .clickUnarchiveButtonForCategoryName(category.name())
+        .clickUnarchiveButtonSubmit()
+        .shouldBeVisibleUnarchiveSuccessMessage(category.name())
         .clickShowArchiveCategoryButton()
-        .shouldBeVisibleCategory(category.name());
+        .shouldVisibleActiveCategory(category.name());
   }
 }

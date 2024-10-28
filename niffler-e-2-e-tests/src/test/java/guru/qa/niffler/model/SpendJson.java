@@ -26,7 +26,6 @@ public record SpendJson(
   public static SpendJson fromEntity(SpendEntity entity) {
     final CategoryEntity category = entity.getCategory();
     final String username = entity.getUsername();
-
     return new SpendJson(
         entity.getId(),
         entity.getSpendDate(),
