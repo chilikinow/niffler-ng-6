@@ -1,4 +1,3 @@
-
 package guru.qa.niffler.api;
 
 import com.fasterxml.jackson.databind.JsonNode;

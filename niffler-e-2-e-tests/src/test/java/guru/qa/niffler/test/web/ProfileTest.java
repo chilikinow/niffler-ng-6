@@ -17,7 +17,7 @@ public class ProfileTest {
   private static final Config CFG = Config.getInstance();
 
   @User(
-      username = "Oleg",
+      username = "duck",
       categories = @Category(
           archived = false
       )
@@ -26,7 +26,7 @@ public class ProfileTest {
   void archivedCategoryShouldNotPresentInCategoriesList(CategoryJson[] categories) throws InterruptedException {
     CategoryJson category = categories[0];
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("Oleg", "12345")
+        .login("duck", "12345")
         .getHeader()
         .toProfilePage()
         .clickArchiveButtonForCategoryName(category.name())
@@ -36,7 +36,7 @@ public class ProfileTest {
   }
 
   @User(
-      username = "Oleg",
+      username = "duck",
       categories = @Category(
           archived = true
       )
@@ -45,7 +45,7 @@ public class ProfileTest {
   void activeCategoryShouldPresentInCategoriesList(CategoryJson[] categories) throws InterruptedException {
     CategoryJson category = categories[0];
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("Oleg", "12345")
+        .login("duck", "12345")
         .getHeader()
         .toProfilePage()
         .clickShowArchiveCategoryButton()
@@ -58,7 +58,7 @@ public class ProfileTest {
 
   @User
   @Test
-  void changeName(UserJson user) {
+  void changeNameAndCheckAlertTest(UserJson user) {
     String name = randomName();
     Selenide.open(CFG.frontUrl(), LoginPage.class)
         .login(user.username(), user.testData().password())
@@ -66,7 +66,7 @@ public class ProfileTest {
         .toProfilePage()
         .setName(name)
         .clickSaveButton()
-        .shouldBeVisibleSaveChangesSuccessMessage()
+        .checkAlert("Profile successfully updated")
         .checkName(name);
   }
 }

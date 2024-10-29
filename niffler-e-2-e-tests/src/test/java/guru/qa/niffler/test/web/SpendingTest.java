@@ -22,7 +22,7 @@ public class SpendingTest {
   private static final Config CFG = Config.getInstance();
 
   @User(
-      username = "Oleg",
+      username = "duck",
       spendings = @Spending(
           category = "Обучение",
           description = "Обучение Advanced 2.0",
@@ -35,7 +35,7 @@ public class SpendingTest {
     final String newDescription = "Обучение Niffler Next Generation";
 
     Selenide.open(CFG.frontUrl(), LoginPage.class)
-        .login("Oleg", "12345")
+        .login("duck", "12345")
         .editSpending(spend.description())
         .setNewSpendingDescription(newDescription)
         .save();
@@ -44,7 +44,7 @@ public class SpendingTest {
 
   @User
   @Test
-  void addSpendTest(UserJson user) {
+  void addSpendAndCheckAlertTest(UserJson user) {
     String category = randomCategoryName();
     String description = randomSentence(2);
 
@@ -56,7 +56,8 @@ public class SpendingTest {
         .setNewSpendingDescription(description)
         .setSpendingAmount("10")
         .getCalendar()
-        .selectDateInCalendar(new Date());
+        .selectDateInCalendar(new Date())
+        .checkAlert("New spending is successfully created");
     new MainPage().checkThatTableContainsSpending(description);
   }
 }
