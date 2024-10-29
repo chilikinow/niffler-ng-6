@@ -2,7 +2,6 @@ package guru.qa.niffler.page;
 
 import com.codeborne.selenide.SelenideElement;
 import guru.qa.niffler.page.component.Header;
-import guru.qa.niffler.page.component.SearchField;
 import io.qameta.allure.Step;
 import lombok.Getter;
 
