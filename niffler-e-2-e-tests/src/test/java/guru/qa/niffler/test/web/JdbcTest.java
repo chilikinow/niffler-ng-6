@@ -29,14 +29,14 @@ public class JdbcTest {
             new Date(),
             new CategoryJson(
                 null,
-                "cat-name-tx-3",
-                "duck",
+                "cat-name-tx-7",
+                "oleg",
                 false
             ),
             CurrencyValues.RUB,
             1000.0,
-            "spend-name-tx-3",
-            "duck"
+            "spend-name-tx-7",
+            "oleg"
         )
     );
 
@@ -44,7 +44,7 @@ public class JdbcTest {
   }
 
   @ValueSource(strings = {
-      "valentin-41"
+      "valentin-51"
   })
   @ParameterizedTest
   void springJdbcTest(String uname) {
