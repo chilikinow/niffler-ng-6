@@ -20,8 +20,8 @@ public class FriendsPage {
   private final SelenideElement acceptButton = $(byText("Accept"));
   private final SelenideElement declineButton = $(byText("Decline"));
   private final SelenideElement confirmDeclineButton =
-      $(".MuiPaper-root button.MuiButtonBase-root.MuiButton-containedPrimary");
-  private final SelenideElement unfriendButton = $("button[class*='MuiButton-containedSecondary']");
+      $("button[class='MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1v1p78s']");
+  private final SelenideElement unfriendButton = $(byText("Unfriend"));;
 
   @Step("Проверка отображения заголовка списка друзей")
   public FriendsPage shouldHaveMyFriendsListHeader(String expectedHeaderText) {

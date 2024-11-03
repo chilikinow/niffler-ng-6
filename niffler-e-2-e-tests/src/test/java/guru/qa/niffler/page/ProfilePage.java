@@ -82,7 +82,6 @@ public class ProfilePage {
 
   @Step("Ввести имя: {name}")
   public ProfilePage setName(String name) {
-    nameInput.clear();
     nameInput.setValue(name);
     return this;
   }

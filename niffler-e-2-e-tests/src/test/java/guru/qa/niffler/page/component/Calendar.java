@@ -20,7 +20,6 @@ public class Calendar {
   @Step("Выбор даты в календаре: {date}")
   public void selectDateInCalendar(Date date) {
     String formattedDate = dateFormat.format(date);
-    calendarInput.clear();  // Очищаем текущее значение
     calendarInput.setValue(formattedDate).pressEnter();  // Устанавливаем новую дату
   }
 }
