@@ -90,7 +90,6 @@ public class ProfilePage extends BasePage<ProfilePage> {
   @Nonnull
   @Step("Ввести имя: {name}")
   public ProfilePage setName(String name) {
-    nameInput.clear();
     nameInput.setValue(name);
     return this;
   }

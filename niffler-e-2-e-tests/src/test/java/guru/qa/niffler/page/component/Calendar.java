@@ -20,7 +20,6 @@ public class Calendar<T extends BasePage<?>> extends BaseComponent<T> {  // Ук
   @Step("Выбор даты в календаре: {date}")
   public T selectDateInCalendar(Date date) {
     String formattedDate = dateFormat.format(date);
-    self.clear();  // `self` указывает на элемент календаря
     self.setValue(formattedDate).pressEnter();
     return getPage();  // Возвращаем страницу для построения цепочек методов
   }

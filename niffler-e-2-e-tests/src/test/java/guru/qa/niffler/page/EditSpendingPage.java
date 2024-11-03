@@ -26,7 +26,6 @@ public class EditSpendingPage extends BasePage<EditSpendingPage> {
   @Nonnull
   @Step("Установить новое описание траты: {description}")
   public EditSpendingPage setNewSpendingDescription(String description) {
-    descriptionInput.clear();
     descriptionInput.setValue(description);
     return this;
   }
