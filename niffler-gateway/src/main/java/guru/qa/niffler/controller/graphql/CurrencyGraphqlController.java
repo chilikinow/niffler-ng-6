@@ -1,6 +1,6 @@
 package guru.qa.niffler.controller.graphql;
 
-import guru.qa.niffler.model.CurrencyJson;
+import guru.qa.niffler.model.rest.CurrencyJson;
 import guru.qa.niffler.service.api.GrpcCurrencyClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.QueryMapping;

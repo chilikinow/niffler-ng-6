@@ -1,9 +1,9 @@
 package guru.qa.niffler.service;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.DataFilterValues;
-import guru.qa.niffler.model.StatisticJson;
-import guru.qa.niffler.model.StatisticV2Json;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.DataFilterValues;
+import guru.qa.niffler.model.rest.StatisticJson;
+import guru.qa.niffler.model.rest.StatisticV2Json;
 import guru.qa.niffler.service.api.RestSpendClient;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

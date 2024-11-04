@@ -1,3 +1,4 @@
+
 package guru.qa.niffler.service.impl;
 
 import guru.qa.niffler.config.Config;
@@ -10,26 +11,26 @@ import guru.qa.niffler.data.repository.UserdataUserRepository;
 import guru.qa.niffler.data.repository.impl.AuthUserRepositoryJdbc;
 import guru.qa.niffler.data.repository.impl.UserdataUserRepositoryJdbc;
 import guru.qa.niffler.data.tpl.XaTransactionTemplate;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.FriendState;
+import guru.qa.niffler.model.rest.TestData;
+import guru.qa.niffler.model.rest.UserJson;
 import guru.qa.niffler.service.UsersClient;
-import io.qameta.allure.Step;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
 
 import static guru.qa.niffler.utils.RandomDataUtils.randomUsername;
+import static java.util.Objects.requireNonNull;
 
 @ParametersAreNonnullByDefault
 public class UsersDbClient implements UsersClient {
 
   private static final Config CFG = Config.getInstance();
+  private static final String defaultPassword = "12345";
   private static final PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
   private final AuthUserRepository authUserRepository = new AuthUserRepositoryJdbc();
@@ -42,70 +43,109 @@ public class UsersDbClient implements UsersClient {
 
   @Nonnull
   @Override
-  @Step("Создание нового пользователя: {username}")
   public UserJson createUser(String username, String password) {
-    return Objects.requireNonNull(
-        xaTransactionTemplate.execute(() ->
-            UserJson.fromEntity(createNewUser(username, password), null)
-        ), "Transaction result is null"
+    return requireNonNull(
+        xaTransactionTemplate.execute(
+            () -> UserJson.fromEntity(
+                createNewUser(username, password),
+                null
+            ).addTestData(
+                new TestData(
+                    password
+                )
+            )
+        )
     );
   }
 
-  @Nonnull
   @Override
-  @Step("Добавление {count} входящих приглашений пользователю: {targetUser.username}")
-  public List<String> addIncomeInvitation(UserJson targetUser, int count) {
-    List<String> incomes = new ArrayList<>();
+  public void addIncomeInvitation(UserJson targetUser, int count) {
     if (count > 0) {
-      UserEntity targetEntity = userdataUserRepository.findById(targetUser.id()).orElseThrow();
+      UserEntity targetEntity = userdataUserRepository.findById(
+          targetUser.id()
+      ).orElseThrow();
+
       for (int i = 0; i < count; i++) {
-        String username = randomUsername();
-        xaTransactionTemplate.execute(() -> {
-          userdataUserRepository.addFriendshipRequest(createNewUser(username, "12345"), targetEntity);
-          return null;
-        });
-        incomes.add(username);  // Сохраняем имя пользователя, который отправил входящее приглашение
+        targetUser.testData()
+            .incomeInvitations()
+            .add(UserJson.fromEntity(
+                    requireNonNull(
+                        xaTransactionTemplate.execute(() -> {
+                              final String username = randomUsername();
+                              final UserEntity newUser = createNewUser(username, defaultPassword);
+                              userdataUserRepository.addFriendshipRequest(
+                                  newUser,
+                                  targetEntity
+                              );
+                              return newUser;
+                            }
+                        )
+                    ),
+                    FriendState.INVITE_RECEIVED
+                )
+            );
       }
     }
-    return incomes;
   }
 
-  @Nonnull
   @Override
-  @Step("Добавление {count} исходящих приглашений пользователю: {targetUser.username}")
-  public List<String> addOutcomeInvitation(UserJson targetUser, int count) {
-    List<String> outcomes = new ArrayList<>();
+  public void addOutcomeInvitation(UserJson targetUser, int count) {
     if (count > 0) {
-      UserEntity targetEntity = userdataUserRepository.findById(targetUser.id()).orElseThrow();
+      UserEntity targetEntity = userdataUserRepository.findById(
+          targetUser.id()
+      ).orElseThrow();
+
       for (int i = 0; i < count; i++) {
-        String username = randomUsername();
-        xaTransactionTemplate.execute(() -> {
-          userdataUserRepository.addFriendshipRequest(targetEntity, createNewUser(username, "12345"));
-          return null;
-        });
-        outcomes.add(username);  // Сохраняем имя пользователя, которому отправили исходящее приглашение
+        targetUser.testData()
+            .outcomeInvitations()
+            .add(UserJson.fromEntity(
+                    requireNonNull(
+                        xaTransactionTemplate.execute(() -> {
+                              final String username = randomUsername();
+                              final UserEntity newUser = createNewUser(username, defaultPassword);
+                              userdataUserRepository.addFriendshipRequest(
+                                  targetEntity,
+                                  newUser
+                              );
+                              return newUser;
+                            }
+                        )
+                    ),
+                    FriendState.INVITE_RECEIVED
+                )
+            );
       }
     }
-    return outcomes;
   }
 
-  @Nonnull
   @Override
-  @Step("Добавление {count} друзей пользователю: {targetUser.username}")
-  public List<String> addFriend(UserJson targetUser, int count) {
-    List<String> friends = new ArrayList<>();
+  public void addFriend(UserJson targetUser, int count) {
     if (count > 0) {
-      UserEntity targetEntity = userdataUserRepository.findById(targetUser.id()).orElseThrow();
+      UserEntity targetEntity = userdataUserRepository.findById(
+          targetUser.id()
+      ).orElseThrow();
+
       for (int i = 0; i < count; i++) {
-        String username = randomUsername();
-        xaTransactionTemplate.execute(() -> {
-          userdataUserRepository.addFriend(targetEntity, createNewUser(username, "12345"));
-          return null;
-        });
-        friends.add(username);  // Сохраняем имя нового друга
+        targetUser.testData()
+            .friends()
+            .add(UserJson.fromEntity(
+                    requireNonNull(
+                        xaTransactionTemplate.execute(() -> {
+                              final String username = randomUsername();
+                              final UserEntity newUser = createNewUser(username, defaultPassword);
+                              userdataUserRepository.addFriend(
+                                  targetEntity,
+                                  newUser
+                              );
+                              return newUser;
+                            }
+                        )
+                    ),
+                    FriendState.FRIEND
+                )
+            );
       }
     }
-    return friends;
   }
 
   @Nonnull

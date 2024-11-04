@@ -3,7 +3,7 @@ package guru.qa.niffler.service;
 
 import guru.qa.niffler.grpc.CalculateRequest;
 import guru.qa.niffler.grpc.NifflerCurrencyServiceGrpc.NifflerCurrencyServiceBlockingStub;
-import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.rest.CurrencyValues;
 import jakarta.annotation.Nonnull;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;

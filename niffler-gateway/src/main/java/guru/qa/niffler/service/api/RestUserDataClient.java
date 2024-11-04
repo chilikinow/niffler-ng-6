@@ -1,8 +1,8 @@
 package guru.qa.niffler.service.api;
 
 import guru.qa.niffler.ex.NoRestResponseException;
-import guru.qa.niffler.model.UserJson;
-import guru.qa.niffler.model.page.RestPage;
+import guru.qa.niffler.model.rest.UserJson;
+import guru.qa.niffler.model.rest.page.RestPage;
 import guru.qa.niffler.service.UserDataClient;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

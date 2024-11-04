@@ -1,11 +1,16 @@
-
 package guru.qa.niffler.api;
 
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.SpendJson;
 import retrofit2.Call;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.PATCH;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 

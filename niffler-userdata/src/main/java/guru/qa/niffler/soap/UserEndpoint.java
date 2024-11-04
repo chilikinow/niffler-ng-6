@@ -1,7 +1,7 @@
 package guru.qa.niffler.soap;
 
-import guru.qa.niffler.model.UserJson;
-import guru.qa.niffler.model.UserJsonBulk;
+import guru.qa.niffler.model.rest.UserJson;
+import guru.qa.niffler.model.rest.UserJsonBulk;
 import guru.qa.niffler.service.UserService;
 import jaxb.userdata.AllUsersPageRequest;
 import jaxb.userdata.AllUsersRequest;

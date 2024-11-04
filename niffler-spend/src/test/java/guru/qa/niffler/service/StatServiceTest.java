@@ -2,10 +2,10 @@ package guru.qa.niffler.service;
 
 import guru.qa.niffler.data.CategoryEntity;
 import guru.qa.niffler.data.SpendEntity;
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.StatisticJson;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.SpendJson;
+import guru.qa.niffler.model.rest.StatisticJson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

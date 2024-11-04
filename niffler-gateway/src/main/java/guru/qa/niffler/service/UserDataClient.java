@@ -1,6 +1,6 @@
 package guru.qa.niffler.service;
 
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.UserJson;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.springframework.data.domain.Page;

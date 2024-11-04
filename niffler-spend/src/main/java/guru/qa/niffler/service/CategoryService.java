@@ -5,7 +5,7 @@ import guru.qa.niffler.data.repository.CategoryRepository;
 import guru.qa.niffler.ex.CategoryNotFoundException;
 import guru.qa.niffler.ex.InvalidCategoryNameException;
 import guru.qa.niffler.ex.TooManyCategoriesException;
-import guru.qa.niffler.model.CategoryJson;
+import guru.qa.niffler.model.rest.CategoryJson;
 import jakarta.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

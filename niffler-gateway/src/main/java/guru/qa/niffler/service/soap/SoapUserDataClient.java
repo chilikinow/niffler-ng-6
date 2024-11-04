@@ -1,7 +1,7 @@
 package guru.qa.niffler.service.soap;
 
 import guru.qa.niffler.ex.NoSoapResponseException;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.UserJson;
 import guru.qa.niffler.service.UserDataClient;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

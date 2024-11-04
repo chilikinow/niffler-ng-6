@@ -2,7 +2,7 @@ package guru.qa.niffler.data.repository;
 
 import guru.qa.niffler.data.SpendEntity;
 import guru.qa.niffler.data.projection.SumByCategory;
-import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.rest.CurrencyValues;
 import jakarta.annotation.Nonnull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

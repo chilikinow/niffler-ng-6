@@ -1,8 +1,8 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.DataFilterValues;
-import guru.qa.niffler.model.StatisticJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.DataFilterValues;
+import guru.qa.niffler.model.rest.StatisticJson;
 import guru.qa.niffler.service.StatisticAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

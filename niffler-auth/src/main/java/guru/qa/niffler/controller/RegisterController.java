@@ -1,6 +1,6 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.RegistrationModel;
+import guru.qa.niffler.model.rest.RegistrationModel;
 import guru.qa.niffler.service.UserService;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletResponse;

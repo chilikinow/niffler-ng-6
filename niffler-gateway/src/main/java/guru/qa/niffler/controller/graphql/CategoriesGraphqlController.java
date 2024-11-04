@@ -1,7 +1,7 @@
 package guru.qa.niffler.controller.graphql;
 
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.graphql.CreateCategoryInput;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.graphql.CreateCategoryInput;
 import guru.qa.niffler.service.api.RestSpendClient;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

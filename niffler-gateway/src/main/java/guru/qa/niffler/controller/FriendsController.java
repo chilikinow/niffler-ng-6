@@ -1,7 +1,7 @@
 package guru.qa.niffler.controller;
 
 
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.UserJson;
 import guru.qa.niffler.service.UserDataClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

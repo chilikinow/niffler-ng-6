@@ -1,6 +1,6 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.CategoryJson;
+import guru.qa.niffler.model.rest.CategoryJson;
 import guru.qa.niffler.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,7 +2,7 @@ package guru.qa.niffler.service;
 
 import guru.qa.niffler.ex.NotFoundException;
 import guru.qa.niffler.ex.SameUsernameException;
-import guru.qa.niffler.model.ErrorJson;
+import guru.qa.niffler.model.rest.ErrorJson;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;

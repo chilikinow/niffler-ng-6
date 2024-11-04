@@ -1,7 +1,7 @@
 package guru.qa.niffler.service;
 
-import guru.qa.niffler.model.EqualPasswords;
-import guru.qa.niffler.model.RegistrationModel;
+import guru.qa.niffler.model.rest.EqualPasswords;
+import guru.qa.niffler.model.rest.RegistrationModel;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

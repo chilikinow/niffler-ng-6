@@ -1,8 +1,8 @@
 package guru.qa.niffler.controller;
 
 
-import guru.qa.niffler.model.FriendJson;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.FriendJson;
+import guru.qa.niffler.model.rest.UserJson;
 import guru.qa.niffler.service.UserDataClient;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

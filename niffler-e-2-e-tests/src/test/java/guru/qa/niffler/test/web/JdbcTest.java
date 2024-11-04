@@ -1,10 +1,10 @@
 package guru.qa.niffler.test.web;
 
 import guru.qa.niffler.jupiter.extension.UsersClientExtension;
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.SpendJson;
+import guru.qa.niffler.model.rest.UserJson;
 import guru.qa.niffler.service.UsersClient;
 import guru.qa.niffler.service.impl.SpendDbClient;
 import org.junit.jupiter.api.Test;
@@ -27,24 +27,27 @@ public class JdbcTest {
         new SpendJson(
             null,
             new Date(),
+            1000.0,
+            CurrencyValues.RUB,
             new CategoryJson(
                 null,
-                "cat-name-tx-7",
-                "oleg",
+                "cat-name-tx-3",
+                "duck",
                 false
             ),
-            CurrencyValues.RUB,
-            1000.0,
-            "spend-name-tx-7",
-            "oleg"
+            "spend-name-tx-3",
+            "duck"
         )
     );
+  }
 
-    System.out.println(spend);
+  @Test
+  void txTest1() {
+    System.out.println("тупой тест");
   }
 
   @ValueSource(strings = {
-      "valentin-51"
+      "valentin-11"
   })
   @ParameterizedTest
   void springJdbcTest(String uname) {
