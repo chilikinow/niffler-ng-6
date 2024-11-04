@@ -6,14 +6,15 @@ import guru.qa.niffler.data.entity.spend.SpendEntity;
 import guru.qa.niffler.data.repository.SpendRepository;
 import guru.qa.niffler.data.repository.impl.SpendRepositoryJdbc;
 import guru.qa.niffler.data.tpl.XaTransactionTemplate;
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.service.SpendClient;
-import io.qameta.allure.Step;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 @ParametersAreNonnullByDefault
 public class SpendDbClient implements SpendClient {
@@ -28,32 +29,55 @@ public class SpendDbClient implements SpendClient {
 
   @Nonnull
   @Override
-  @Step("Создание новой траты")
   public SpendJson createSpend(SpendJson spend) {
-    return Objects.requireNonNull(
-        xaTransactionTemplate.execute(() ->
-            SpendJson.fromEntity(spendRepository.create(SpendEntity.fromJson(spend)))
-        ), "Transaction result is null"
+    return requireNonNull(
+        xaTransactionTemplate.execute(
+            () -> SpendJson.fromEntity(
+                spendRepository.create(
+                    SpendEntity.fromJson(spend)
+                )
+            )
+        )
     );
   }
 
   @Nonnull
   @Override
-  @Step("Создание новой категории")
   public CategoryJson createCategory(CategoryJson category) {
-    return Objects.requireNonNull(
-        xaTransactionTemplate.execute(() ->
-            CategoryJson.fromEntity(spendRepository.createCategory(CategoryEntity.fromJson(category)))
-        ), "Transaction result is null"
+    return requireNonNull(
+        xaTransactionTemplate.execute(
+            () -> CategoryJson.fromEntity(
+                spendRepository.createCategory(
+                    CategoryEntity.fromJson(category)
+                )
+            )
+        )
+    );
+  }
+
+  @NotNull
+  @Override
+  public CategoryJson updateCategory(CategoryJson category) {
+    return requireNonNull(
+        xaTransactionTemplate.execute(
+            () -> CategoryJson.fromEntity(
+                spendRepository.updateCategory(
+                    CategoryEntity.fromJson(category)
+                )
+            )
+        )
     );
   }
 
   @Override
-  @Step("Удаление категории")
   public void removeCategory(CategoryJson category) {
-    xaTransactionTemplate.execute(() -> {
-      spendRepository.removeCategory(CategoryEntity.fromJson(category));
-      return null;
-    });
+    xaTransactionTemplate.execute(
+        () -> {
+          spendRepository.removeCategory(
+              CategoryEntity.fromJson(category)
+          );
+          return null;
+        }
+    );
   }
 }

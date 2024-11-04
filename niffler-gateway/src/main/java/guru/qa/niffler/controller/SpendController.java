@@ -1,8 +1,8 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.DataFilterValues;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.DataFilterValues;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.service.UserDataClient;
 import guru.qa.niffler.service.api.RestSpendClient;
 import jakarta.validation.Valid;

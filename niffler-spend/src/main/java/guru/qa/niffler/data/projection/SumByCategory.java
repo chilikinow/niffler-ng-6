@@ -1,6 +1,6 @@
 package guru.qa.niffler.data.projection;
 
-import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.rest.CurrencyValues;
 
 import java.util.Date;
 

@@ -1,6 +1,6 @@
 package guru.qa.niffler.config;
 
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.UserJson;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Autowired;

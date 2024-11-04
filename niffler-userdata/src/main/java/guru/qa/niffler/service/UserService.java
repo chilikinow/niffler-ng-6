@@ -8,8 +8,8 @@ import guru.qa.niffler.data.projection.UserWithStatus;
 import guru.qa.niffler.data.repository.UserRepository;
 import guru.qa.niffler.ex.NotFoundException;
 import guru.qa.niffler.ex.SameUsernameException;
-import guru.qa.niffler.model.UserJson;
-import guru.qa.niffler.model.UserJsonBulk;
+import guru.qa.niffler.model.rest.UserJson;
+import guru.qa.niffler.model.rest.UserJsonBulk;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -27,8 +27,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 
-import static guru.qa.niffler.model.FriendState.FRIEND;
-import static guru.qa.niffler.model.FriendState.INVITE_SENT;
+import static guru.qa.niffler.model.rest.FriendState.FRIEND;
+import static guru.qa.niffler.model.rest.FriendState.INVITE_SENT;
 
 @Component
 public class UserService {

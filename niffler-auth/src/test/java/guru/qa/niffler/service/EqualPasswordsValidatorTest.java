@@ -1,6 +1,6 @@
 package guru.qa.niffler.service;
 
-import guru.qa.niffler.model.RegistrationModel;
+import guru.qa.niffler.model.rest.RegistrationModel;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

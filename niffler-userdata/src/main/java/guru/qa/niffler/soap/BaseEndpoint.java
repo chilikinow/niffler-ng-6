@@ -1,6 +1,6 @@
 package guru.qa.niffler.soap;
 
-import guru.qa.niffler.model.UserJsonBulk;
+import guru.qa.niffler.model.rest.UserJsonBulk;
 import jakarta.annotation.Nonnull;
 import jaxb.userdata.UsersResponse;
 import org.springframework.data.domain.Page;

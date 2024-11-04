@@ -1,6 +1,6 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.CategoryJson;
+import guru.qa.niffler.model.rest.CategoryJson;
 import guru.qa.niffler.service.api.RestSpendClient;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

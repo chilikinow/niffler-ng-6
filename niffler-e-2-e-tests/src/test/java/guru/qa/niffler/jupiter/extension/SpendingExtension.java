@@ -1,14 +1,19 @@
 package guru.qa.niffler.jupiter.extension;
 
-import guru.qa.niffler.api.SpendApiClient;
 import guru.qa.niffler.jupiter.annotation.Spending;
 import guru.qa.niffler.jupiter.annotation.User;
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.SpendJson;
+import guru.qa.niffler.model.rest.UserJson;
+import guru.qa.niffler.service.SpendClient;
+import guru.qa.niffler.service.impl.SpendApiClient;
 import org.apache.commons.lang3.ArrayUtils;
-import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 import org.junit.platform.commons.support.AnnotationSupport;
 
 import java.util.ArrayList;
@@ -19,7 +24,7 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
 
   public static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create(SpendingExtension.class);
 
-  private final SpendApiClient spendApiClient = new SpendApiClient();
+  private final SpendClient spendClient = new SpendApiClient();
 
   @Override
   public void beforeEach(ExtensionContext context) throws Exception {
@@ -34,25 +39,24 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
               SpendJson spend = new SpendJson(
                   null,
                   new Date(),
+                  spendAnno.amount(),
+                  CurrencyValues.RUB,
                   new CategoryJson(
                       null,
                       spendAnno.category(),
                       user != null ? user.username() : userAnno.username(),
                       false
                   ),
-                  CurrencyValues.RUB,
-                  spendAnno.amount(),
                   spendAnno.description(),
                   user != null ? user.username() : userAnno.username()
               );
 
-              SpendJson createdSpend = spendApiClient.createSpend(spend);
+              SpendJson createdSpend = spendClient.createSpend(spend);
               result.add(createdSpend);
             }
 
-
             if (user != null) {
-              user.testData().spendings().addAll(result);
+              user.testData().spends().addAll(result);
             } else {
               context.getStore(NAMESPACE).put(
                   context.getUniqueId(),
@@ -71,10 +75,6 @@ public class SpendingExtension implements BeforeEachCallback, ParameterResolver 
   @Override
   @SuppressWarnings("unchecked")
   public SpendJson[] resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-    List<SpendJson> spends = (List<SpendJson>) extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), List.class);
-    if (spends != null) {
-      return spends.toArray(new SpendJson[0]);
-    }
-    return new SpendJson[0];
+    return (SpendJson[]) extensionContext.getStore(NAMESPACE).get(extensionContext.getUniqueId(), List.class).toArray();
   }
 }

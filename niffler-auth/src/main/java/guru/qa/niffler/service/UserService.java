@@ -4,7 +4,7 @@ import guru.qa.niffler.data.Authority;
 import guru.qa.niffler.data.AuthorityEntity;
 import guru.qa.niffler.data.UserEntity;
 import guru.qa.niffler.data.repository.UserRepository;
-import guru.qa.niffler.model.UserJson;
+import guru.qa.niffler.model.rest.UserJson;
 import jakarta.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

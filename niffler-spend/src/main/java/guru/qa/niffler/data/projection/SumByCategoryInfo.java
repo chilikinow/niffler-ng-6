@@ -1,7 +1,7 @@
 package guru.qa.niffler.data.projection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import guru.qa.niffler.model.CurrencyValues;
+import guru.qa.niffler.model.rest.CurrencyValues;
 
 import java.util.Date;
 

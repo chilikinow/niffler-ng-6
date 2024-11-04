@@ -1,10 +1,10 @@
 package guru.qa.niffler.controller.graphql;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.DataFilterValues;
-import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.graphql.SpendInput;
-import guru.qa.niffler.model.graphql.UpdateSpendInput;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.DataFilterValues;
+import guru.qa.niffler.model.rest.SpendJson;
+import guru.qa.niffler.model.rest.graphql.SpendInput;
+import guru.qa.niffler.model.rest.graphql.UpdateSpendInput;
 import guru.qa.niffler.service.StatisticAggregator;
 import guru.qa.niffler.service.UserDataClient;
 import guru.qa.niffler.service.api.RestSpendClient;

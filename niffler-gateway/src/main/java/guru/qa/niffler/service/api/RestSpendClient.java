@@ -1,13 +1,13 @@
 package guru.qa.niffler.service.api;
 
 import guru.qa.niffler.ex.NoRestResponseException;
-import guru.qa.niffler.model.CategoryJson;
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.DataFilterValues;
-import guru.qa.niffler.model.SpendJson;
-import guru.qa.niffler.model.StatisticJson;
-import guru.qa.niffler.model.StatisticV2Json;
-import guru.qa.niffler.model.page.RestPage;
+import guru.qa.niffler.model.rest.CategoryJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.DataFilterValues;
+import guru.qa.niffler.model.rest.SpendJson;
+import guru.qa.niffler.model.rest.StatisticJson;
+import guru.qa.niffler.model.rest.StatisticV2Json;
+import guru.qa.niffler.model.rest.page.RestPage;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;

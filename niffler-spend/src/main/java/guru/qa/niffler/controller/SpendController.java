@@ -1,7 +1,7 @@
 package guru.qa.niffler.controller;
 
-import guru.qa.niffler.model.CurrencyValues;
-import guru.qa.niffler.model.SpendJson;
+import guru.qa.niffler.model.rest.CurrencyValues;
+import guru.qa.niffler.model.rest.SpendJson;
 import guru.qa.niffler.service.SpendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
